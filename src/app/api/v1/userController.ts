@@ -1,10 +1,18 @@
 import { Request, Response } from 'express';
-import { userService } from '../../../domain/services/UserService';
+import { UserService } from '../../../domain/services/UserService';
+import { userRepository } from '../../../infrastructure/db/repositories/UserRepository';
 
 export class UserController {
+
+    service: UserService;
+
+    constructor() {
+        this.service = new UserService(userRepository)
+    }
+
     async createUser(req: Request, res: Response): Promise<void> {
         try {
-            const user = await userService.createUser(req.body);
+            const user = await this.service.createUser(req.body);
             res.status(201).json(user);
         } catch (error) {
             if (error instanceof Error) {
@@ -17,7 +25,8 @@ export class UserController {
 
     async getUser(req: Request, res: Response): Promise<void> {
         try {
-            const user = await userService.getUser(req.params.id);
+            const userId = parseInt(req.params.id, 10);
+            const user = await this.service.getUser(userId);
             if (user) {
                 res.status(200).json(user);
             } else {

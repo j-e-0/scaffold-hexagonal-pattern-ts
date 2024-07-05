@@ -1,15 +1,19 @@
 import { Product } from '../models/Product';
-import { productRepository } from '../../infrastructure/db/repositories/ProductRepository';
+import { ProductRepositoryInterface } from '../interfaces/ProductRepositoryInterface';
 
-class ProductService {
-    async createProduct(data: any): Promise<Product> {
-        const product = new Product(data.id, data.name, data.price);
-        return productRepository.save(product);
-    }
+export class ProductService {
 
-    async getProduct(id: string): Promise<Product | null> {
-        return productRepository.findById(id);
-    }
+  repository: ProductRepositoryInterface;
+
+  constructor(repository: ProductRepositoryInterface){
+    this.repository = repository
+ }
+
+  async createProduct(data: any): Promise<Product> {
+    return this.repository.createProduct(data);
+  }
+
+  async getProduct(id: number): Promise<Product | null> {
+    return this.repository.getProductById(id);
+  }
 }
-
-export const productService = new ProductService();

@@ -1,10 +1,18 @@
 import { Request, Response } from 'express';
-import { productService } from '../../../domain/services/ProductService';
+import { ProductService } from '../../../domain/services/ProductService';
+import { productRepository } from '../../../infrastructure/db/repositories/ProductRepository';
 
 export class ProductController {
+
+    service: ProductService;
+
+    constructor() {
+        this.service = new ProductService(productRepository)
+    }
+
     async createProduct(req: Request, res: Response): Promise<void> {
         try {
-            const product = await productService.createProduct(req.body);
+            const product = await this.service.createProduct(req.body);
             res.status(201).json(product);
         } catch (error) {
             if (error instanceof Error) {
@@ -17,7 +25,8 @@ export class ProductController {
 
     async getProduct(req: Request, res: Response): Promise<void> {
         try {
-            const product = await productService.getProduct(req.params.id);
+            const productId = parseInt(req.params.id, 10);
+            const product = await this.service.getProduct(productId);
             if (product) {
                 res.status(200).json(product);
             } else {

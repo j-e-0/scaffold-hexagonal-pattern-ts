@@ -1,16 +1,30 @@
 import { User } from '../../../domain/models/User';
+import { UserRepositoryInterface } from '../../../domain/interfaces/UserRepositoryInterface';
+import { User as UserDatabase } from '../models/User';
 
-class UserRepository {
-    private users: User[] = [];
+class UserRepository implements UserRepositoryInterface {
+  async createUser(data: any): Promise<User> {
+    const user = await UserDatabase.create(data);
+    return new User(user.id, user.username, user.email, user.password);
+  }
 
-    async save(user: User): Promise<User> {
-        this.users.push(user);
-        return user;
-    }
+  async getUserById(id: number): Promise<User | null> {
+    const user = await UserDatabase.findByPk(id);
 
-    async findById(id: string): Promise<User | null> {
-        return this.users.find(user => user.id === id) || null;
-    }
+    if(user != null)
+        return new User(user.id, user.username, user.email, user.password);
+
+    return user;
+  }
+
+  async getUserByUsername(username: string): Promise<User | null> {
+    const user = await UserDatabase.findOne({ where: { username } });
+
+    if(user != null)
+      return new User(user.id, user.username, user.email, user.password);
+    
+    return user;
+  }
 }
 
 export const userRepository = new UserRepository();

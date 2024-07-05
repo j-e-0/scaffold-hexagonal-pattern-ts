@@ -1,15 +1,19 @@
 import { User } from '../models/User';
-import { userRepository } from '../../infrastructure/db/repositories/UserRepository';
+import { UserRepositoryInterface } from '../interfaces/UserRepositoryInterface';
 
-class UserService {
-    async createUser(data: any): Promise<User> {
-        const user = new User(data.id, data.username, data.email, data.password);
-        return userRepository.save(user);
-    }
+export class UserService {
 
-    async getUser(id: string): Promise<User | null> {
-        return userRepository.findById(id);
-    }
+  repository: UserRepositoryInterface;
+  
+  constructor(repository: UserRepositoryInterface){
+     this.repository = repository
+  }
+
+  async createUser(data: any): Promise<User> {
+    return this.repository.createUser(data);
+  }
+
+  async getUser(id: number): Promise<User | null> {
+    return this.repository.getUserById(id);
+  }
 }
-
-export const userService = new UserService();

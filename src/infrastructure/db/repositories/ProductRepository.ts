@@ -1,16 +1,21 @@
 import { Product } from '../../../domain/models/Product';
+import { Product as ProductDatabase } from '../models/Product';
+import { ProductRepositoryInterface } from '../../../domain/interfaces/ProductRepositoryInterface';
 
-class ProductRepository {
-    private products: Product[] = [];
+class ProductRepository implements ProductRepositoryInterface{
+  async createProduct(data: any): Promise<Product> {
+    const product = await ProductDatabase.create(data);
+    return new Product(product.id, product.name, product.price);
+  }
 
-    async save(product: Product): Promise<Product> {
-        this.products.push(product);
-        return product;
-    }
+  async getProductById(id: number): Promise<Product | null> {
+    const product = await ProductDatabase.findByPk(id);
 
-    async findById(id: string): Promise<Product | null> {
-        return this.products.find(product => product.id === id) || null;
-    }
+    if(product != null)
+      return new Product(product.id, product.name, product.price);
+
+    return product;
+  }
 }
 
-export const productRepository = new ProductRepository();
+export const productRepository = new ProductRepository()
