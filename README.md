@@ -1,11 +1,11 @@
 
-# Project Name
+# scaffold-hexagonal-pattern-ts
 
 This project is a TypeScript application using Express, designed with a Hexagonal Architecture (Ports and Adapters). It demonstrates the separation of concerns, making the application more maintainable, testable, and scalable.
 
 ## Table of Contents
 
-- [Project Name](#project-name)
+- [Scaffold Hexagonal Pattern TS](#scaffold-hexagonal-pattern-ts)
 - [Table of Contents](#table-of-contents)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -20,8 +20,8 @@ This project is a TypeScript application using Express, designed with a Hexagona
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/yourusername/your-repo-name.git
-    cd your-repo-name
+    git clone https://github.com/j-e-0/scaffold-hexagonal-pattern-ts
+    cd scaffold-hexagonal-pattern-ts
     ```
 
 2. Install the dependencies:
@@ -160,27 +160,7 @@ project/
 
 ## Contributing
 
-1. Fork the repository.
-2. Create a new branch:
-
-    ```bash
-    git checkout -b feature/your-feature-name
-    ```
-
-3. Make your changes.
-4. Commit your changes:
-
-    ```bash
-    git commit -m 'Add some feature'
-    ```
-
-5. Push to the branch:
-
-    ```bash
-    git push origin feature/your-feature-name
-    ```
-
-6. Open a pull request.
+Contributions are welcome! Please fork the repository and create a pull request with your changes.
 
 ## License
 
